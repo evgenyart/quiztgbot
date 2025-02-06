@@ -1,15 +1,13 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Domain\Entity;
 
-use App\Infrastructure\Repository\GamesRepository;
+use App\Repository\ToursRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: GamesRepository::class)]
-class Games
+#[ORM\Entity(repositoryClass: ToursRepository::class)]
+class Tours
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -20,10 +18,7 @@ class Games
     private ?string $name = null;
 
     #[ORM\Column]
-    private ?int $numTours = null;
-
-    #[ORM\Column]
-    private ?int $numQuestions = null;
+    private ?int $gameId = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $createdAt = null;
@@ -33,12 +28,10 @@ class Games
 
     public function __construct(
         $name,
-        $numTours,
-        $numQuestions
+        $gameId
     ) {
         $this->name = $name;
-        $this->numTours = $numTours;
-        $this->numQuestions = $numQuestions;
+        $this->gameId = $gameId;
     }
 
     public function getId(): ?int
@@ -58,26 +51,14 @@ class Games
         return $this;
     }
 
-    public function getNumTours(): ?int
+    public function getGameId(): ?int
     {
-        return $this->numTours;
+        return $this->gameId;
     }
 
-    public function setNumTours(int $numTours): static
+    public function setGameId(int $gameId): static
     {
-        $this->numTours = $numTours;
-
-        return $this;
-    }
-
-    public function getNumQuestions(): ?int
-    {
-        return $this->numQuestions;
-    }
-
-    public function setNumQuestions(int $numQuestions): static
-    {
-        $this->numQuestions = $numQuestions;
+        $this->gameId = $gameId;
 
         return $this;
     }

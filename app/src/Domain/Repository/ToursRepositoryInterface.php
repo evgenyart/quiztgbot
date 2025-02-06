@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Domain\Repository;
 
-use App\Domain\Entity\Games;
+use App\Domain\Entity\Tours;
 
-interface GamesRepositoryInterface
+interface ToursRepositoryInterface
 {
-    public function save(Games $games): void;
+    public function save(Tours $tours): void;
 
     public function findByIds(iterable $ids): iterable;
 

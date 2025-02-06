@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Repository;
 
-use App\Domain\Repository\GamesRepositoryInterface;
+use App\Domain\Repository\ToursRepositoryInterface;
 use Symfony\Component\HttpFoundation\Request;
-use App\Domain\Entity\Games;
+use App\Domain\Entity\Tours;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\DBAL\Connection;
 
-class GamesRepository extends ServiceEntityRepository implements GamesRepositoryInterface
+class ToursRepository extends ServiceEntityRepository implements ToursRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry, private Connection $db)
     {
-        parent::__construct($registry, Games::class);
+        parent::__construct($registry, Tours::class);
     }
 
     public function findByIds(iterable $ids): iterable
@@ -23,11 +23,11 @@ class GamesRepository extends ServiceEntityRepository implements GamesRepository
         return [];
     }
 
-    public function save(Games $games): void
+    public function save(Tours $tours): void
     {
-        $this->getEntityManager()->persist($games);
+        $this->getEntityManager()->persist($tours);
         $this->getEntityManager()->flush();
-        #$id = $games->getId();
+        #$id = $tours->getId();
     }
 
     public function getAll(): iterable
