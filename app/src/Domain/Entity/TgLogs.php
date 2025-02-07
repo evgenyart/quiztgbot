@@ -1,24 +1,21 @@
 <?php
 
-namespace App\Entity;
+namespace App\Domain\Entity;
 
-use App\Repository\Repository\ToursRepository;
+use App\Repository\Infrastructure\TgLogsRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ToursRepository::class)]
-class Tours
+#[ORM\Entity(repositoryClass: TgLogsRepository::class)]
+class TgLogs
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $name = null;
-
-    #[ORM\Column]
-    private ?int $gameId = null;
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $body = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $createdAt = null;
@@ -26,31 +23,25 @@ class Tours
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $updatedAt = null;
 
+    public function __construct(
+        $body
+    ) {
+        $this->body = $body;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getBody(): ?string
     {
-        return $this->name;
+        return $this->body;
     }
 
-    public function setName(string $name): static
+    public function setBody(string $body): static
     {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function getGameId(): ?int
-    {
-        return $this->gameId;
-    }
-
-    public function setGameId(int $gameId): static
-    {
-        $this->gameId = $gameId;
+        $this->body = $body;
 
         return $this;
     }

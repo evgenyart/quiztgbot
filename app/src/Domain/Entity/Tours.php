@@ -2,7 +2,7 @@
 
 namespace App\Domain\Entity;
 
-use App\Repository\ToursRepository;
+use App\Infrastructure\Repository\ToursRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
