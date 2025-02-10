@@ -8,7 +8,8 @@ class CreateTourRequest
 {
     public function __construct(
         public readonly string $name, 
-        public readonly int $gameId
+        public readonly int $gameId,
+        public readonly int $tourNum
     )
     {
     }

@@ -24,6 +24,7 @@ class GetToursListUseCase
                 'id' => $oneTour->getId(),
                 'name' => $oneTour->getName(),
                 'game_id' => $oneTour->getGameId(),
+                'tour_num' => $oneTour->getTourNum(),
                 'created_at' => $oneTour->getCreatedAt(),
                 'updated_at' => $oneTour->getUpdatedAt()
             ];

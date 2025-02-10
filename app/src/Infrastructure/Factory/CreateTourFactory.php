@@ -9,11 +9,12 @@ use App\Domain\Entity\Tours;
 
 class CreateTourFactory implements ToursFactoryInterface
 {
-    public function create(string $name, int $gameId): Tours
+    public function create(string $name, int $gameId, int $tourNum): Tours
     {
         return new Tours(
             $name,
-            $gameId
+            $gameId,
+            $tourNum
         );
     }
 }

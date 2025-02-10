@@ -4,20 +4,22 @@ declare(strict_types=1);
 
 namespace App\Application\UseCase\Games;
 
-use App\Domain\Repository\GamesRepositoryInterface;
+use App\Application\UseCase\Games\GetGamesListResponse;
+use App\Domain\Services\GamesService;
 
 class GetGamesListUseCase
 {
-    public function __construct(
-        private readonly GamesRepositoryInterface $gamesRepository
-    ) {
+    private $gamesService;
+
+    public function __construct(GamesService $gamesService) {
+        $this->gamesService = $gamesService;
     }
 
-    public function __invoke(): GeGamesListResponse
+    public function __invoke(): GetGamesListResponse
     {
         $result = [];
 
-        $gamesList = $this->gamesRepository->findAll();
+        $gamesList = $this->gamesService->getAllGames();
 
         foreach ($gamesList as $oneGame) {
             $result[] = [
@@ -30,6 +32,6 @@ class GetGamesListUseCase
             ];
         }
 
-        return new GeGamesListResponse($result);
+        return new GetGamesListResponse($result);
     }
 }

@@ -8,5 +8,5 @@ use App\Domain\Entity\Tours;
 
 interface ToursFactoryInterface
 {
-    public function create(string $name, int $gameId): Tours;
+    public function create(string $name, int $gameId, int $tourId): Tours;
 }

@@ -6,17 +6,25 @@ namespace App\Infrastructure\Service;
 
 use Telegram\Bot\Api;
 use Psr\Log\LoggerInterface;
+use App\Application\UseCase\TgLogs\CreateTgLogRequest;
+use App\Application\UseCase\TgLogs\CreateTgLogUseCase;
+use App\Infrastructure\Helpers\TelegramHelper;
+use App\Application\Commands\CommandFactory;
+use App\Application\Commands\CommandHandler;
 
 class TelegramBotService
 {
     private $telegram;
+    private $tgLog;
 
-    public function __construct(LoggerInterface $logger)
+    public function __construct(private CreateTgLogUseCase $TgLogUseCase, private LoggerInterface $logger, private CommandHandler $commandHandler)
     {
         #переделать получение
         $apiKey = $_ENV['TELEGRAM_BOT_TOKEN'];
 
-        $logger->info($apiKey);
+        $this->tgLog = $TgLogUseCase;
+        $this->logger = $logger;
+        $this->commandHandler = $commandHandler;
 
         try {
             $this->telegram = new Api($apiKey);
@@ -27,6 +35,49 @@ class TelegramBotService
 
     public function handleUpdate($update)
     {
+        #запишем в базу лог
+        $logRequest = new CreateTgLogRequest(json_encode($update, JSON_UNESCAPED_UNICODE));
+        ($this->tgLog)($logRequest);
+        
+        $arMessageParams = TelegramHelper::getChatIdText($update);
 
+        if(isset($arMessageParams['chatId']) && $arMessageParams['text']) {
+
+            $chatId = $arMessageParams['chatId'];
+            $message = $arMessageParams['text'];
+
+            #является ли введеная фраза коммандой - есть ли символ "/"
+            if($this->checkIsCommand($message)) {
+
+                #получить название команд
+                $commandName = $this->getNameCommand($message);
+                $this->logger->info($commandName);
+
+                #сделать действие для команды, вернуть текстовый ответ
+                $commandResponse = $this->commandHandler->handle($commandName, $message);
+
+                #отправим ответное сообщение в чат
+                if(strlen($commandResponse)) {
+                    $this->SendTelegramMessage($chatId, $commandResponse);
+                }
+            }
+        }
+    }
+
+    private function SendTelegramMessage($chatId, $message) {
+        $response = $this->telegram->sendMessage([
+            'chat_id' => $chatId,
+            'text' => $message,
+        ]);
+    }
+
+    private function getNameCommand($text): string
+    {
+        return strtok($text, ' ');
+    }
+
+    private function checkIsCommand($text): bool
+    {
+        return (strpos($text, '/') === 0) ? true : false;
     }
 }

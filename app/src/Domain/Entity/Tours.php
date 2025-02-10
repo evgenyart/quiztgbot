@@ -20,6 +20,9 @@ class Tours
     #[ORM\Column]
     private ?int $gameId = null;
 
+    #[ORM\Column]
+    private ?int $tourNum = null;
+
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $createdAt = null;
 
@@ -28,10 +31,12 @@ class Tours
 
     public function __construct(
         $name,
-        $gameId
+        $gameId,
+        $tourNum
     ) {
         $this->name = $name;
         $this->gameId = $gameId;
+        $this->tourNum = $tourNum;
     }
 
     public function getId(): ?int
@@ -59,6 +64,18 @@ class Tours
     public function setGameId(int $gameId): static
     {
         $this->gameId = $gameId;
+
+        return $this;
+    }
+
+    public function getTourNum(): ?int
+    {
+        return $this->tourNum;
+    }
+
+    public function setTourNum(int $tourNum): static
+    {
+        $this->tourNum = $tourNum;
 
         return $this;
     }

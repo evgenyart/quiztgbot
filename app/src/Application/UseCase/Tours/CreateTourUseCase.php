@@ -20,7 +20,7 @@ class CreateTourUseCase
 
     public function __invoke(CreateTourRequest $request): CreateTourResponse
     {
-        $tour = $this->tourFactory->create($request->name, $request->gameId);
+        $tour = $this->tourFactory->create($request->name, $request->gameId, $request->tourNum);
 
         $this->tourRepository->save($tour);
 

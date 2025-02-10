@@ -20,7 +20,9 @@ class GamesRepository extends ServiceEntityRepository implements GamesRepository
 
     public function findByIds(iterable $ids): iterable
     {
-        return [];
+        #temp hack
+        $id = $ids[0];
+        return $this->getEntityManager()->getRepository(Quiz::class)->find($id);
     }
 
     public function save(Games $games): void
@@ -32,6 +34,6 @@ class GamesRepository extends ServiceEntityRepository implements GamesRepository
 
     public function getAll(): iterable
     {
-        return [];
+        return $this->getEntityManager()->getRepository(Games::class)->findAll();
     }
 }

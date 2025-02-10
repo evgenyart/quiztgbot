@@ -21,7 +21,7 @@ final class Version20250205232910 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE games (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, num_tours INT NOT NULL, num_questions INT NOT NULL, created_at DATETIME DEFAULT NULL, updated_at DATETIME DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4');
-        $this->addSql('CREATE TABLE tours (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, game_id INT NOT NULL, created_at DATETIME DEFAULT NULL, updated_at DATETIME DEFAULT NULL, PRIMARY KEY(id), FOREIGN KEY (game_id) REFERENCES games(id)) DEFAULT CHARACTER SET utf8mb4');
+        $this->addSql('CREATE TABLE tours (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, game_id INT NOT NULL, tour_num INT NOT NULL, created_at DATETIME DEFAULT NULL, updated_at DATETIME DEFAULT NULL, PRIMARY KEY(id), FOREIGN KEY (game_id) REFERENCES games(id)) DEFAULT CHARACTER SET utf8mb4');
     }
 
     public function down(Schema $schema): void
