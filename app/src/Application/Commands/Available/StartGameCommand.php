@@ -30,6 +30,7 @@ class StartGameCommand implements CommandInterface
         $arguments = TelegramHelper::getArguments($message);
 
         if(isset($arguments[1])) {
+            #тут передаем ID игры и ID пользователя
             $response = $this->processGameUseCase->__invoke((int)$arguments[1], (int)$userId);
         } else {
             $response = "\xE2\x9D\x97 Необходимо ввести ID игры, например /start 1";
