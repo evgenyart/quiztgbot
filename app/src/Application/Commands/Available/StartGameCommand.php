@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace App\Application\Commands\Available;
 
 use App\Application\Commands\CommandInterface;
-use App\Application\UseCase\Games\ProcessGameUseCase;
+use App\Application\UseCase\Game\ProcessGameUseCase;
 use Psr\Log\LoggerInterface;
 use App\Application\Helpers\MessagesHelpers;
+use App\Infrastructure\Helpers\TelegramHelper;
 
 class StartGameCommand implements CommandInterface
 {
@@ -22,12 +23,17 @@ class StartGameCommand implements CommandInterface
         $this->processGameUseCase = $processGameUseCase;
     }
 
-    public function execute(string $message = ""): ?string
+    public function execute(string $message = "", int $userId = 0): ?string
     {
-        $process = $this->processGameUseCase->__invoke();
+        $response = "";
 
-        die();
-        $response = MessagesHelpers::formatGamesList($games);
+        $arguments = TelegramHelper::getArguments($message);
+
+        if(isset($arguments[1])) {
+            $response = $this->processGameUseCase->__invoke((int)$arguments[1], (int)$userId);
+        } else {
+            $response = "\xE2\x9D\x97 Необходимо ввести ID игры, например /start 1";
+        }
         
         return $response;
     }

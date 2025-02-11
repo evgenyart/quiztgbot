@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Repository;
 
-use App\Domain\Repository\QuestionsRepositoryInterface;
+use App\Domain\Repository\UserAnswersRepositoryInterface;
 use Symfony\Component\HttpFoundation\Request;
-use App\Domain\Entity\Questions;
+use App\Domain\Entity\UserAnswers;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\DBAL\Connection;
 
-class QuestionsRepository extends ServiceEntityRepository implements QuestionsRepositoryInterface
+class UserAnswersRepository extends ServiceEntityRepository implements UserAnswersRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry, private Connection $db)
     {
@@ -23,18 +23,16 @@ class QuestionsRepository extends ServiceEntityRepository implements QuestionsRe
         return [];
     }
 
-    public function save(Questions $questions): void
+    public function save(UserAnswers $userAnswers): void
     {
         $this->getEntityManager()->persist($questions);
         $this->getEntityManager()->flush();
-        #$id = $questions->getId();
+        #$id = $userAnswers->getId();
     }
 
     public function findByGameId(int $gameId): iterable
     {
-        return []; 
-        
-        #return $this->findBy(['game_id' => $gameId]);
+        return $this->findBy(['game_id' => $gameId]);
     }
 
     public function getAll(): iterable

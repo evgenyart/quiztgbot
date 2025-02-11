@@ -39,12 +39,13 @@ class TelegramBotService
         $logRequest = new CreateTgLogRequest(json_encode($update, JSON_UNESCAPED_UNICODE));
         ($this->tgLog)($logRequest);
         
-        $arMessageParams = TelegramHelper::getChatIdText($update);
+        $arMessageParams = TelegramHelper::getChatIdTextUser($update);
 
         if(isset($arMessageParams['chatId']) && $arMessageParams['text']) {
 
             $chatId = $arMessageParams['chatId'];
             $message = $arMessageParams['text'];
+            $userId =  $arMessageParams['userId'];
 
             #является ли введеная фраза коммандой - есть ли символ "/"
             if($this->checkIsCommand($message)) {
@@ -54,7 +55,7 @@ class TelegramBotService
                 $this->logger->info($commandName);
 
                 #сделать действие для команды, вернуть текстовый ответ
-                $commandResponse = $this->commandHandler->handle($commandName, $message);
+                $commandResponse = $this->commandHandler->handle($commandName, $message, $userId);
 
                 #отправим ответное сообщение в чат
                 if(strlen($commandResponse)) {

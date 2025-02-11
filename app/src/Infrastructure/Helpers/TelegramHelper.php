@@ -6,14 +6,25 @@ namespace App\Infrastructure\Helpers;
 
 class TelegramHelper
 {
-    public static function getChatIdText($body): iterable
+    public static function getChatIdTextUser($body): iterable
     {
-        if (isset($body['message'])) {
+        $key = "message";
 
-            $chatId = $body['message']['chat']['id'];
-            $text = $body['message']['text'];
-
-            return ['chatId' => $chatId, 'text' => $text];
+        if (isset($body['edited_message'])) {
+            $key = "edited_message";
         }
+
+        if(isset($body['edited_message']) || isset($body['message'])) {
+            $chatId = $body[$key]['chat']['id'];
+            $text = $body[$key]['text'];
+            $userId = $body[$key]['from']['id'];
+
+            return ['chatId' => $chatId, 'text' => $text, 'userId' => $userId];
+        }
+    }
+
+    public static function getArguments($body): iterable
+    {
+        return explode(" ", $body);
     }
 }

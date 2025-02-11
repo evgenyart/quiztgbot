@@ -14,5 +14,7 @@ interface QuestionsRepositoryInterface
 
     public function getAll(): iterable;
 
+    public function findByGameId(int $gameId): iterable;
+
     #public function delete(int $id): void;
 }

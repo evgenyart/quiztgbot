@@ -21,7 +21,7 @@ class GamesService
         return $this->gamesRepository->findAll();
     }
 
-    public function getGameById(int $id): ?Games
+    public function getGameById(int $id): array
     {
         return $this->gamesRepository->findById($id);
     }
