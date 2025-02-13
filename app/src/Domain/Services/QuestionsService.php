@@ -18,16 +18,31 @@ class QuestionsService
 
     public function findQuestionByGameIdNumQuestion(int $gameId, int $questionNum = 1): ?Questions
     {
-
+        return null;
     }
 
-    public function getQuestionById(int $id): ?Games
+    public function getQuestionsByGameId(int $gameId)
     {
-        return $this->questionsRepository->findById($id);
+        return $this->questionsRepository->findByGameId($gameId);
+    }
+
+    public function getQuestionById(int $id): ?Questions
+    {
+        return $this->questionsRepository->findQuestionById($id);
     }
 
     public function addtQuestion(Questions $question): void
     {
         $this->questionsRepository->save($question);
+    }
+
+    public function getCountQuestions($gameId): int
+    {
+        return $this->questionsRepository->getCountQuestions($gameId);
+    }
+
+    public function showNextQuestion($gameId, $userSessionId, $cntAnswersSession)
+    {
+        return $this->questionsRepository->getNextQuestion($gameId, $userSessionId, $cntAnswersSession);
     }
 }

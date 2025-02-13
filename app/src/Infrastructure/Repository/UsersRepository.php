@@ -10,20 +10,22 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
-class UsersRepository implements UsersRepositoryInterface
+
+class UsersRepository extends ServiceEntityRepository implements UsersRepositoryInterface
 {
-    public function __construct(private EntityManagerInterface $entityManager)
+    public function __construct(ManagerRegistry $registry, private Connection $db)
     {
+        parent::__construct($registry, Users::class);
     }
 
     public function findByExternalId(int $externalId): ?Users
     {
-        return $this->entityManager->getRepository(Users::class)->findBy(['tg_id' => $externalId]);
+        return $this->findOneBy(['tgId' => $externalId]);
     }
 
     public function save(Users $user): void
     {
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
+        $this->getEntityManager()->persist($user);
+        $this->getEntityManager()->flush();
     }
 }

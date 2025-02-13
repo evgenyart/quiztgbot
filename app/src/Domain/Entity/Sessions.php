@@ -20,6 +20,9 @@ class Sessions
     #[ORM\Column]
     private ?int $gameId = null;
 
+    #[ORM\Column]
+    private ?int $lastQuestionId = null;
+
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $startedAt = null;
 
@@ -67,6 +70,18 @@ class Sessions
     public function setGameId(int $gameId): static
     {
         $this->gameId = $gameId;
+
+        return $this;
+    }
+
+    public function getLastQuestionId(): ?int
+    {
+        return $this->lastQuestionId;
+    }
+
+    public function setLastQuestionId(int $lastQuestionId): static
+    {
+        $this->lastQuestionId = $lastQuestionId;
 
         return $this;
     }

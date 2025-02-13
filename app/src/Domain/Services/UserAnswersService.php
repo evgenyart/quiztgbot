@@ -25,4 +25,9 @@ class UserAnswersService
     {
         $this->userAnswersRepository->save($userAnswer);
     }
+
+    public function getCountAnswersBySession(int $sessionId): int
+    {
+        return $this->userAnswersRepository->getCountBySession($sessionId);
+    }
 }

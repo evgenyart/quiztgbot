@@ -36,4 +36,16 @@ class GamesRepository extends ServiceEntityRepository implements GamesRepository
     {
         return $this->getEntityManager()->getRepository(Games::class)->findAll();
     }
+
+    public function hasQuestions($gameId): bool
+    {
+        $query = $this->getEntityManager()->createQuery(
+            'SELECT COUNT(q.id)
+             FROM App\Domain\Entity\Questions q
+             JOIN App\Domain\Entity\Tours t WITH q.tourId = t.id
+             WHERE t.gameId = :gameId'
+        )->setParameter('gameId', $gameId);
+
+        return $query->getSingleScalarResult() > 0;
+    }
 }

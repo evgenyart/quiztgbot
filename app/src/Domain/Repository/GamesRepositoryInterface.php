@@ -14,5 +14,7 @@ interface GamesRepositoryInterface
 
     public function getAll(): iterable;
 
+    public function hasQuestions($gameId): bool;
+
     #public function delete(int $id): void;
 }

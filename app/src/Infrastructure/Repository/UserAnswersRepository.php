@@ -15,7 +15,7 @@ class UserAnswersRepository extends ServiceEntityRepository implements UserAnswe
 {
     public function __construct(ManagerRegistry $registry, private Connection $db)
     {
-        parent::__construct($registry, Questions::class);
+        parent::__construct($registry, UserAnswers::class);
     }
 
     public function findByIds(iterable $ids): iterable
@@ -25,7 +25,7 @@ class UserAnswersRepository extends ServiceEntityRepository implements UserAnswe
 
     public function save(UserAnswers $userAnswers): void
     {
-        $this->getEntityManager()->persist($questions);
+        $this->getEntityManager()->persist($userAnswers);
         $this->getEntityManager()->flush();
         #$id = $userAnswers->getId();
     }
@@ -38,5 +38,16 @@ class UserAnswersRepository extends ServiceEntityRepository implements UserAnswe
     public function getAll(): iterable
     {
         return [];
+    }
+
+    public function getCountBySession(int $sessionId): int
+    {
+        $query = $this->getEntityManager()->createQuery(
+            'SELECT COUNT(ua.id)
+             FROM App\Domain\Entity\UserAnswers ua
+             WHERE ua.sessionId = :sessionId'
+        )->setParameter('sessionId', $sessionId);
+
+        return $query->getSingleScalarResult();
     }
 }

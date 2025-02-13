@@ -14,7 +14,7 @@ class UsersService
         #$this->usersRepository = $usersRepository;
     }
 
-    public function getUserById(int $id)
+    public function getUserByExternalId(int $id)
     {
         return $this->usersRepository->findByExternalId($id);
     }

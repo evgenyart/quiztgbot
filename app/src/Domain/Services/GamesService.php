@@ -30,4 +30,9 @@ class GamesService
     {
         $this->gamesRepository->save($game);
     }
+
+    public function checkIssetQuestions($gameId): bool
+    {
+        return $this->gamesRepository->hasQuestions($gameId);
+    }
 }

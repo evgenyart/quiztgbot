@@ -4,30 +4,30 @@ declare(strict_types=1);
 
 namespace App\Application\UseCase\Game;
 
+use App\Application\Helpers\UserHelper;
+use App\Application\Helpers\SessionHelper;
+use App\Domain\Entity\Sessions;
 use App\Domain\Services\QuestionsService;
 use App\Domain\Services\GamesService;
 use App\Domain\Services\UserAnswersService;
 use App\Domain\Services\UsersService;
+use App\Domain\Services\SessionsService;
 use App\Domain\Entity\Users;
+use App\Application\Helpers\QuestionHelper;
 
 class ProcessGameUseCase
 {
-    private $questionsService;
-    private $gamesService;
-    private $userAnswersService;
-    private $usersService;
-
     public function __construct(
-        QuestionsService $questionsService, 
-        GamesService $gamesService,
-        UserAnswersService $userAnswersService,
-        UsersService $usersService
+        private QuestionsService $questionsService,
+        private GamesService $gamesService,
+        private UserAnswersService $userAnswersService,
+        private UsersService $usersService,
+        private SessionsService $sessionsService,
+        private QuestionHelper $questionHelper,
+        private SessionHelper $sessionHelper,
+        private UserHelper $userHelper
         
     ) {
-        $this->questionsService = $questionsService;
-        $this->gamesService = $gamesService;
-        $this->userAnswersService = $userAnswersService;
-        #$this->usersService = $usersService;
     }
 
     public function __invoke(int $gameId, int $userId): string
@@ -36,9 +36,33 @@ class ProcessGameUseCase
         $game = $this->gamesService->getGameById($gameId);
         if($game) {
             #проверить, есть ли пользователь в базе. если есть - вернуть внутренний id. если нет - создать
-            $internalUserId = $this->getInternalUserId($userId);
-            #$userAnswers = $this->userAnswersService->getUserAnswerByFilter(['user_id' => $userId, 'game_id' => $gameId]);
-            
+            $internalUserId = $this->userHelper->getInternalUserId($userId);
+
+            #проверить,если ли в базе вопросы по выбранному квизу
+            if ($this->checkIssetQuestions($gameId)) {
+                #проверить, проходил ли данный пользователь уже такой квиз
+
+                #определим сессию пользователя
+                $userSessionId = $this->sessionHelper->getSessionsGameByUser($internalUserId, $gameId);
+
+                #определим, сколько вопросов есть в базе
+                $cntQuestions = $this->questionsService->getCountQuestions($gameId);
+
+                #определим, сколько вопросов уже прошёл пользователь
+                $cntAnswersSession = $this->userAnswersService->getCountAnswersBySession($userSessionId);
+
+                #если это новая игра, то выдадим вопрос
+                if ($cntAnswersSession == 0) {
+                    return $this->questionHelper->ShowQuestion($gameId, $userSessionId, $cntAnswersSession);
+                }
+
+                #$response = "В базе ".$cntQuestions." вопросов \n";
+                #$response .= "Пользователь ответил на ".$cntAnswersSession;
+
+
+            } else {
+                $response = "Для выбранной игры нет вопросов в базе. Выберите другую игру";
+            }
         } else {
             $response = "Игра с введеным ID не найдена";
         }
@@ -49,16 +73,9 @@ class ProcessGameUseCase
     }
 
     #вынести в отдельный класс
-    private function getInternalUserId(int $userId): int
+    private function checkIssetQuestions($gameId)
     {
-        $id = 0;
-
-        $user = $this->usersService->getUserById($userId);
-        if (!$user) {
-            $user = new Users($userId);
-            $this->usersService->addUser($user);
-        }
-
-        return $user->getId();
+        return $this->gamesService->checkIssetQuestions($gameId);
     }
+
 }

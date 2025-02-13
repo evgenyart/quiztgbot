@@ -30,11 +30,39 @@ class QuestionsRepository extends ServiceEntityRepository implements QuestionsRe
         #$id = $questions->getId();
     }
 
-    public function findByGameId(int $gameId): iterable
+    public function getCountQuestions(int $gameId):int
     {
-        return []; 
-        
-        #return $this->findBy(['game_id' => $gameId]);
+        $query = $this->getEntityManager()->createQuery(
+            'SELECT COUNT(q.id)
+             FROM App\Domain\Entity\Questions q
+             JOIN App\Domain\Entity\Tours t WITH q.tourId = t.id
+             WHERE t.gameId = :gameId'
+        )->setParameter('gameId', $gameId);
+
+        return $query->getSingleScalarResult();
+    }
+
+    public function getNextQuestion($gameId, $userSessionId, $cntAnswersSession): ?Questions
+    {
+        $query = $this->getEntityManager()->createQuery(
+            'SELECT q
+             FROM App\Domain\Entity\Questions q
+             JOIN App\Domain\Entity\Tours t WITH q.tourId = t.id
+             WHERE t.gameId = :gameId
+             ORDER BY q.tourId ASC, q.questionNum ASC'
+        )->setParameter('gameId', $gameId)->setMaxResults(1);
+
+        return $query->getOneOrNullResult();
+    }
+
+    public function findQuestionById(int $id): ?Questions
+    {
+        return $this->findOneBy(['id' => $id]);
+    }
+
+    public function findByGameId(int $gameId)
+    {
+        return $this->findBy(['gameId' => $gameId]);
     }
 
     public function getAll(): iterable

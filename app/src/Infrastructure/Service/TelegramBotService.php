@@ -11,15 +11,21 @@ use App\Application\UseCase\TgLogs\CreateTgLogUseCase;
 use App\Infrastructure\Helpers\TelegramHelper;
 use App\Application\Commands\CommandFactory;
 use App\Application\Commands\CommandHandler;
+use App\Application\Telegram\MessageHandler;
 
 class TelegramBotService
 {
     private $telegram;
     private $tgLog;
 
-    public function __construct(private CreateTgLogUseCase $TgLogUseCase, private LoggerInterface $logger, private CommandHandler $commandHandler)
+    public function __construct(
+        private CreateTgLogUseCase $TgLogUseCase,
+        private LoggerInterface $logger,
+        private CommandHandler $commandHandler,
+        private MessageHandler $messageHandler
+    )
     {
-        #переделать получение
+        #топорно
         $apiKey = $_ENV['TELEGRAM_BOT_TOKEN'];
 
         $this->tgLog = $TgLogUseCase;
@@ -57,10 +63,18 @@ class TelegramBotService
                 #сделать действие для команды, вернуть текстовый ответ
                 $commandResponse = $this->commandHandler->handle($commandName, $message, $userId);
 
-                #отправим ответное сообщение в чат
-                if(strlen($commandResponse)) {
-                    $this->SendTelegramMessage($chatId, $commandResponse);
-                }
+            } else {
+                #возможно это ответ на вопрос или какой-то мусор
+                $result = $this->messageHandler->processMessage($userId, $message);
+                $commandResponse = (string)$result;
+                usleep(2000);
+
+                #тут надо проверить что выводить дальше - следующий вопрос, результаты или ничего
+            }
+
+            #отправим ответное сообщение в чат
+            if(strlen($commandResponse)) {
+                $this->SendTelegramMessage($chatId, $commandResponse);
             }
         }
     }

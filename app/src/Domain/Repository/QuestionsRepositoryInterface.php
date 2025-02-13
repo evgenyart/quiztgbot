@@ -12,9 +12,15 @@ interface QuestionsRepositoryInterface
 
     public function findByIds(iterable $ids): iterable;
 
+    public function findQuestionById(int $id): ?Questions;
+
     public function getAll(): iterable;
 
-    public function findByGameId(int $gameId): iterable;
+    public function findByGameId(int $gameId);
+
+    public function getCountQuestions(int $gameId): int;
+
+    public function getNextQuestion($gameId, $userSessionId, $cntAnswersSession): ?Questions;
 
     #public function delete(int $id): void;
 }
