@@ -20,7 +20,7 @@ interface QuestionsRepositoryInterface
 
     public function getCountQuestions(int $gameId): int;
 
-    public function getNextQuestion($gameId, $userSessionId, $cntAnswersSession): ?Questions;
+    public function getNextQuestion($gameId, $userSessionId, $showedIds): ?Questions;
 
     #public function delete(int $id): void;
 }

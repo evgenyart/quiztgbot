@@ -21,9 +21,9 @@ class QuestionHelper
         return $this->questionsService->getQuestionById($lastQuestionId);
     }
 
-    public function ShowQuestion($gameId, $userSessionId, $cntAnswersSession): string
+    public function ShowQuestion($gameId, $userSessionId, $showedIds): string
     {
-        $question = $this->questionsService->showNextQuestion($gameId, $userSessionId, $cntAnswersSession);
+        $question = $this->questionsService->showNextQuestion($gameId, $userSessionId, $showedIds);
 
         if($question) {
             $this->sessionsService->setLastQuestionId($userSessionId, $question->getId());

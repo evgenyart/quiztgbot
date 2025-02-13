@@ -45,6 +45,9 @@ class ProcessGameUseCase
                 #определим сессию пользователя
                 $userSessionId = $this->sessionHelper->getSessionsGameByUser($internalUserId, $gameId);
 
+                #если есть другие сесси пользователя, то закроем их всех
+                $this->sessionHelper->closeSessionsExcept($internalUserId, $userSessionId);
+
                 #определим, сколько вопросов есть в базе
                 $cntQuestions = $this->questionsService->getCountQuestions($gameId);
 
@@ -53,7 +56,7 @@ class ProcessGameUseCase
 
                 #если это новая игра, то выдадим вопрос
                 if ($cntAnswersSession == 0) {
-                    return $this->questionHelper->ShowQuestion($gameId, $userSessionId, $cntAnswersSession);
+                    return $this->questionHelper->ShowQuestion($gameId, $userSessionId, []);
                 }
 
                 #$response = "В базе ".$cntQuestions." вопросов \n";

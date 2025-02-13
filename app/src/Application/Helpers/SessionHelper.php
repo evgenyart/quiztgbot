@@ -18,6 +18,16 @@ class SessionHelper
         return $this->sessionsService->getActiveSessionQuestionId($internalUserId);
     }
 
+    public function closeSession($sessionId): void
+    {
+        $this->sessionsService->closeSession($sessionId);
+    }
+
+    public function closeSessionsExcept($internalUserId, $sessionId): void
+    {
+        $this->sessionsService->closeSessionsExcept($internalUserId, $sessionId);
+    }
+
     public function getSessionsGameByUser($internalUserId, $gameId): int
     {
         $session = $this->sessionsService->getSessionByUserGame($internalUserId, $gameId);

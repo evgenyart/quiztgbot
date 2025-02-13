@@ -15,4 +15,8 @@ interface SessionRepositoryInterface
     public function updateQuestionId($userSessionId, $questionId): void;
 
     public function findByUserActiveSession($internalUserId);
+
+    public function closeSession($sessionId);
+
+    public function closeSessionsExcept($internalUserId, $sessionId);
 }

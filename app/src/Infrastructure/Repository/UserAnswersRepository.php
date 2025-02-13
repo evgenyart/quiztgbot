@@ -50,4 +50,26 @@ class UserAnswersRepository extends ServiceEntityRepository implements UserAnswe
 
         return $query->getSingleScalarResult();
     }
+
+    public function getCountRightAnswersBySession(int $sessionId): int
+    {
+        $query = $this->getEntityManager()->createQuery(
+            'SELECT COUNT(ua.id)
+             FROM App\Domain\Entity\UserAnswers ua
+             WHERE ua.sessionId = :sessionId AND ua.result = 1'
+        )->setParameter('sessionId', $sessionId);
+
+        return $query->getSingleScalarResult();
+    }
+
+    public function getIdsQuestionsAnswersBySession(int $sessionId)
+    {
+        $query = $this->getEntityManager()->createQuery(
+            'SELECT ua.questionId
+             FROM App\Domain\Entity\UserAnswers ua
+             WHERE ua.sessionId = :sessionId'
+        )->setParameter('sessionId', $sessionId);
+
+        return array_column($query->getResult(), 'questionId');
+    }
 }

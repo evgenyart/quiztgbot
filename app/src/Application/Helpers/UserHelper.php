@@ -14,8 +14,6 @@ class UserHelper
 
     public function getInternalUserId(int $userId): int
     {
-        $id = 0;
-
         $user = $this->usersService->getUserByExternalId($userId);
         if (!$user) {
             $user = new Users($userId);

@@ -25,7 +25,29 @@ class SessionsRepository extends ServiceEntityRepository implements SessionRepos
 
     public function findByUserAndGame($userId, $gameId): ?Sessions
     {
-        return $this->findOneBy(['userId' => $userId, 'gameId' => $gameId]);
+        return $this->findOneBy(['userId' => $userId, 'gameId' => $gameId, 'startedAt' => null]);
+    }
+
+    public function closeSession($sessionId)
+    {
+        $userSession = $this->find($sessionId);
+        $userSession->setFinishedAt(new \DateTime());
+        $this->getEntityManager()->flush();
+    }
+
+    public function closeSessionsExcept($internalUserId, $sessionId)
+    {
+        $query = $this->getEntityManager()->createQuery(
+            'UPDATE App\Domain\Entity\Sessions s
+         SET s.finishedAt = :now
+         WHERE s.userId = :internalUserId
+         AND s.id != :sessionId
+         AND s.finishedAt IS NULL'
+        )->setParameter('internalUserId', $internalUserId)
+            ->setParameter('sessionId', $sessionId)
+            ->setParameter('now', new \DateTime());
+
+        $query->execute();
     }
 
     public function updateQuestionId($userSessionId, $questionId): void
@@ -38,7 +60,7 @@ class SessionsRepository extends ServiceEntityRepository implements SessionRepos
     public function findByUserActiveSession($internalUserId)
     {
         $query = $this->getEntityManager()->createQuery(
-            'SELECT s.id, s.lastQuestionId
+            'SELECT s.id, s.lastQuestionId, s.gameId
              FROM App\Domain\Entity\Sessions s
              WHERE s.userId = :internalUserId
              AND s.startedAt IS NOT NULL
@@ -51,6 +73,7 @@ class SessionsRepository extends ServiceEntityRepository implements SessionRepos
         return $result ? [
             'id' => $result['id'],
             'lastQuestionId' => $result['lastQuestionId'],
+            'gameId' => $result['gameId']
         ] : null;
     }
 }

@@ -41,8 +41,8 @@ class QuestionsService
         return $this->questionsRepository->getCountQuestions($gameId);
     }
 
-    public function showNextQuestion($gameId, $userSessionId, $cntAnswersSession)
+    public function showNextQuestion($gameId, $userSessionId, $showedIds)
     {
-        return $this->questionsRepository->getNextQuestion($gameId, $userSessionId, $cntAnswersSession);
+        return $this->questionsRepository->getNextQuestion($gameId, $userSessionId, $showedIds);
     }
 }

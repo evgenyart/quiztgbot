@@ -24,6 +24,16 @@ class SessionsService
         $this->sessionsRepository->save($session);
     }
 
+    public function closeSession($sessionId): void
+    {
+        $this->sessionsRepository->closeSession($sessionId);
+    }
+
+    public function closeSessionsExcept($internalUserId, $sessionId): void
+    {
+        $this->sessionsRepository->closeSessionsExcept($internalUserId, $sessionId);
+    }
+
     public function setLastQuestionId($userSessionId, $questionId): void
     {
         $this->sessionsRepository->updateQuestionId($userSessionId, $questionId);

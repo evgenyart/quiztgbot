@@ -42,15 +42,28 @@ class QuestionsRepository extends ServiceEntityRepository implements QuestionsRe
         return $query->getSingleScalarResult();
     }
 
-    public function getNextQuestion($gameId, $userSessionId, $cntAnswersSession): ?Questions
+    public function getNextQuestion($gameId, $userSessionId, $showedIds): ?Questions
     {
-        $query = $this->getEntityManager()->createQuery(
-            'SELECT q
+
+        $sql = 'SELECT q
              FROM App\Domain\Entity\Questions q
              JOIN App\Domain\Entity\Tours t WITH q.tourId = t.id
-             WHERE t.gameId = :gameId
-             ORDER BY q.tourId ASC, q.questionNum ASC'
-        )->setParameter('gameId', $gameId)->setMaxResults(1);
+             WHERE t.gameId = :gameId';
+
+        if(!empty($showedIds)) {
+            $sql .= ' AND q.id NOT IN (:showedIds)';
+        }
+
+        $sql .= ' ORDER BY q.tourId ASC, q.questionNum ASC';
+
+        $query = $this->getEntityManager()->createQuery($sql)
+            ->setParameter('gameId', $gameId);
+
+        if (!empty($showedIds)) {
+            $query->setParameter('showedIds', $showedIds);
+        }
+
+        $query->setMaxResults(1);
 
         return $query->getOneOrNullResult();
     }

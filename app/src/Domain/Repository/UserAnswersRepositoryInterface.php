@@ -14,6 +14,10 @@ interface UserAnswersRepositoryInterface
 
     public function getCountBySession(int $sessionId): int;
 
+    public function getIdsQuestionsAnswersBySession(int $sessionId);
+
+    public function getCountRightAnswersBySession(int $sessionId): int;
+
     #public function findByFilter(iterable $filter): iterable;
 
     #public function findByIds(iterable $ids): iterable;

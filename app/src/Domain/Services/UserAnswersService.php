@@ -30,4 +30,14 @@ class UserAnswersService
     {
         return $this->userAnswersRepository->getCountBySession($sessionId);
     }
+
+    public function getCountRightAnswersBySession(int $sessionId):int
+    {
+        return $this->userAnswersRepository->getCountRightAnswersBySession($sessionId);
+    }
+
+    public function getIdsQuestionsAnswersBySession(int $sessionId)
+    {
+        return $this->userAnswersRepository->getIdsQuestionsAnswersBySession($sessionId);
+    }
 }
