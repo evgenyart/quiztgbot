@@ -37,15 +37,23 @@ class SessionsRepository extends ServiceEntityRepository implements SessionRepos
 
     public function closeSessionsExcept($internalUserId, $sessionId)
     {
-        $query = $this->getEntityManager()->createQuery(
-            'UPDATE App\Domain\Entity\Sessions s
+        $sql = 'UPDATE App\Domain\Entity\Sessions s
          SET s.finishedAt = :now
          WHERE s.userId = :internalUserId
-         AND s.id != :sessionId
-         AND s.finishedAt IS NULL'
-        )->setParameter('internalUserId', $internalUserId)
-            ->setParameter('sessionId', $sessionId)
+         AND s.finishedAt IS NULL';
+
+        if($sessionId <> null) {
+            $sql .= ' AND s.id != :sessionId ';
+        }
+
+
+        $query = $this->getEntityManager()->createQuery($sql)
+            ->setParameter('internalUserId', $internalUserId)
             ->setParameter('now', new \DateTime());
+
+        if($sessionId <> null) {
+            $query->setParameter('sessionId', $sessionId);
+        }
 
         $query->execute();
     }

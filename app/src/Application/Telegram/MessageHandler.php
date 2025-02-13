@@ -73,13 +73,14 @@ class MessageHandler
     private function checkAnswer($goodAnswer, $userAnswer):bool
     {
         $result = false;
-        $userAnswer = strtolower($userAnswer);
-        $userAnswer = preg_replace('/\s+/', '', $userAnswer);
+        $goodAnswer = trim($goodAnswer);
+        $userAnswer = mb_strtolower($userAnswer);
+        $userAnswer = str_replace(' ', '', $userAnswer);
 
         $arAnswer = explode("#", $goodAnswer);
         foreach($arAnswer as $answer) {
-            $answer = preg_replace('/\s+/', '', $answer);
-            if(strtolower($answer) == $userAnswer){
+            $answer = str_replace(' ', '', $answer);
+            if(mb_strtolower($answer) == $userAnswer){
                 $result = true;
                 break;
             }

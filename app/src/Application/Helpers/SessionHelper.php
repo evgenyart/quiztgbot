@@ -23,7 +23,7 @@ class SessionHelper
         $this->sessionsService->closeSession($sessionId);
     }
 
-    public function closeSessionsExcept($internalUserId, $sessionId): void
+    public function closeSessionsExcept($internalUserId, $sessionId = null): void
     {
         $this->sessionsService->closeSessionsExcept($internalUserId, $sessionId);
     }
