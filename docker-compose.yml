@@ -27,20 +27,20 @@ services:
       - app-network
 
   db:
-    image: public.ecr.aws/docker/library/postgres:15.3
-    shm_size: 1g
+    image: public.ecr.aws/docker/library/mysql:8.0
     restart: always
     container_name: db
     environment:
-        POSTGRES_DB: '${POSTGRES_DB}'
-        POSTGRES_PASSWORD: '${POSTGRES_PASSWORD}'
-    ports:
-        - 5432:5432
+        MYSQL_DATABASE: ${MYSQL_DATABASE}
+        MYSQL_ROOT_PASSWORD: '${MYSQL_ROOT_PASSWORD}'
+        MYSQL_USER: '${MYSQL_USER}'
+        MYSQL_PASSWORD: '${MYSQL_PASSWORD}'
     volumes:
-        - ./docker_data/:/var/lib/postgresql/data
+        - ./docker_data/:/var/lib/mysql
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
     networks:
       - app-network
-
+  
   adminer:
       image: public.ecr.aws/docker/library/adminer
       restart: always
