@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Application\Helpers;
 
+use App\Application\UseCase\Games\GetGamesListResponse;
+
 class TelegramHelper
 {
     public static function getChatIdTextUser($body): iterable
@@ -20,6 +22,8 @@ class TelegramHelper
             $userId = $body[$key]['from']['id'];
 
             return ['chatId' => $chatId, 'text' => $text, 'userId' => $userId];
+        } else {
+            return [];
         }
     }
 
@@ -36,5 +40,17 @@ class TelegramHelper
     public static function checkIsCommand($text): bool
     {
         return (strpos($text, '/') === 0) ? true : false;
+    }
+
+    public static function formatGamesList(GetGamesListResponse $gamesListResponse): string
+    {
+        $message = "Список доступных квизов в базе: \n\n";
+        foreach($gamesListResponse->gamesList as $oneGame) {
+            $message .= $oneGame['id'] ." - ".$oneGame['name']. "\n";
+        }
+
+        $message .= "\nЧтобы запустить игру, наберите команду /start <ID>";
+
+        return $message;
     }
 }

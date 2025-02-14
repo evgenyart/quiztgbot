@@ -6,7 +6,7 @@ namespace App\Application\Commands\Available;
 
 use App\Application\Commands\CommandInterface;
 use App\Application\UseCase\Games\GetGamesListUseCase;
-use App\Application\Helpers\MessagesHelpers;
+use App\Application\Helpers\TelegramHelper;
 
 class ListGamesCommand implements CommandInterface
 {
@@ -17,6 +17,6 @@ class ListGamesCommand implements CommandInterface
     public function execute(string $message = "", int $userId = 0): string
     {
         $games = $this->gamesListUseCase->__invoke();
-        return MessagesHelpers::formatGamesList($games);
+        return TelegramHelper::formatGamesList($games);
     }
 }
