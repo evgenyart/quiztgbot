@@ -17,12 +17,10 @@ class TgLogsRepository extends ServiceEntityRepository implements TgLogsReposito
     {
         parent::__construct($registry, TgLogs::class);
     }
-
     public function save(TgLogs $tgLogs): void
     {
         $this->getEntityManager()->persist($tgLogs);
         $this->getEntityManager()->flush();
         #$id = $tgLogs->getId();
     }
-
 }

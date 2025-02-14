@@ -42,7 +42,7 @@ class SessionsRepository extends ServiceEntityRepository implements SessionRepos
          WHERE s.userId = :internalUserId
          AND s.finishedAt IS NULL';
 
-        if($sessionId <> null) {
+        if ($sessionId <> null) {
             $sql .= ' AND s.id != :sessionId ';
         }
 
@@ -51,7 +51,7 @@ class SessionsRepository extends ServiceEntityRepository implements SessionRepos
             ->setParameter('internalUserId', $internalUserId)
             ->setParameter('now', new \DateTime());
 
-        if($sessionId <> null) {
+        if ($sessionId <> null) {
             $query->setParameter('sessionId', $sessionId);
         }
 

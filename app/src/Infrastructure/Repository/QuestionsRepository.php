@@ -29,8 +29,7 @@ class QuestionsRepository extends ServiceEntityRepository implements QuestionsRe
         $this->getEntityManager()->flush();
         #$id = $questions->getId();
     }
-
-    public function getCountQuestions(int $gameId):int
+    public function getCountQuestions(int $gameId): int
     {
         $query = $this->getEntityManager()->createQuery(
             'SELECT COUNT(q.id)
@@ -50,7 +49,7 @@ class QuestionsRepository extends ServiceEntityRepository implements QuestionsRe
              JOIN App\Domain\Entity\Tours t WITH q.tourId = t.id
              WHERE t.gameId = :gameId';
 
-        if(!empty($showedIds)) {
+        if (!empty($showedIds)) {
             $sql .= ' AND q.id NOT IN (:showedIds)';
         }
 
