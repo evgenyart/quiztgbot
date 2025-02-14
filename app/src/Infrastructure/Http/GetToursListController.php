@@ -26,7 +26,7 @@ class GetToursListController extends AbstractFOSRestController
         $request = $this->requestStack->getCurrentRequest();
         $failedTokenCheck = $this->tokenChecker->check($request);
 
-        if($failedTokenCheck) {
+        if ($failedTokenCheck) {
             return $failedTokenCheck;
         } else {
             try {

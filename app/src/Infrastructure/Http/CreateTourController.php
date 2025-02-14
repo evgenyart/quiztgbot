@@ -26,14 +26,12 @@ class CreateTourController extends AbstractFOSRestController
     public function __invoke(
         #[MapRequestPayload] CreateTourRequest $request
     ): Response {
-
         $requestHeader = $this->requestStack->getCurrentRequest();
         $failedTokenCheck = $this->tokenChecker->check($requestHeader);
 
-        if($failedTokenCheck) {
+        if ($failedTokenCheck) {
             return $failedTokenCheck;
         } else {
-
             try {
             $response = ($this->useCase)($request);
             return new Response(

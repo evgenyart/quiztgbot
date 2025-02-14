@@ -30,10 +30,9 @@ class CreateGameController extends AbstractFOSRestController
         $requestHeader = $this->requestStack->getCurrentRequest();
         $failedTokenCheck = $this->tokenChecker->check($requestHeader);
 
-        if($failedTokenCheck) {
+        if ($failedTokenCheck) {
             return $failedTokenCheck;
         } else {
-
             try {
                 $response = ($this->useCase)($request);
                 return new Response(

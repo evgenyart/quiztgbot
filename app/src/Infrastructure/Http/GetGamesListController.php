@@ -26,10 +26,9 @@ class GetGamesListController extends AbstractFOSRestController
         $request = $this->requestStack->getCurrentRequest();
         $failedTokenCheck = $this->tokenChecker->check($request);
 
-        if($failedTokenCheck) {
+        if ($failedTokenCheck) {
             return $failedTokenCheck;
         } else {
-
             try {
                 $response = ($this->useCase)();
                 return new Response(json_encode($response, JSON_UNESCAPED_UNICODE), 200);

@@ -16,8 +16,7 @@ use App\Infrastructure\Service\TelegramBotService;
 
 class TelegramHookController extends AbstractFOSRestController
 {
-    public function __construct(TelegramBotService $telegramBotService
-    )
+    public function __construct(TelegramBotService $telegramBotService)
     {
         $this->telegramBotService = $telegramBotService;
     }
