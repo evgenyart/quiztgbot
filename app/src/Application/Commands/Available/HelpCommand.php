@@ -8,7 +8,7 @@ use App\Application\Commands\CommandInterface;
 
 class HelpCommand implements CommandInterface
 {
-    public function execute(string $message = ""): ?string
+    public function execute(string $message = "", int $userId = 0): string
     {
         $response = "\xF0\x9F\x91\x8D  Допустимые команды бота:  \xF0\x9F\x91\x8D\n\n";
 

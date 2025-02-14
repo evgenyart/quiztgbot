@@ -6,30 +6,18 @@ namespace App\Application\Commands\Available;
 
 use App\Application\Commands\CommandInterface;
 use App\Application\UseCase\Game\ProcessGameUseCase;
-use Psr\Log\LoggerInterface;
-use App\Application\Helpers\MessagesHelpers;
-use App\Infrastructure\Helpers\TelegramHelper;
+use App\Application\Helpers\TelegramHelper;
 
 class StartGameCommand implements CommandInterface
 {
-    private $processGameUseCase;
-
-    public function __construct(
-        private LoggerInterface $logger,
-        ProcessGameUseCase $processGameUseCase
-    )
+    public function __construct(private ProcessGameUseCase $processGameUseCase)
     {
-        $this->logger = $logger;
-        $this->processGameUseCase = $processGameUseCase;
     }
-
-    public function execute(string $message = "", int $userId = 0): ?string
+    public function execute(string $message = "", int $userId = 0): string
     {
-        $response = "";
-
         $arguments = TelegramHelper::getArguments($message);
 
-        if(isset($arguments[1])) {
+        if (isset($arguments[1])) {
             #тут передаем ID игры и ID пользователя
             $response = $this->processGameUseCase->__invoke((int)$arguments[1], (int)$userId);
         } else {

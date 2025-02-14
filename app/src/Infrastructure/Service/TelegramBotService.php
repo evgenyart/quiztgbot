@@ -10,7 +10,7 @@ use Telegram\Bot\Api;
 use Psr\Log\LoggerInterface;
 use App\Application\UseCase\TgLogs\CreateTgLogRequest;
 use App\Application\UseCase\TgLogs\CreateTgLogUseCase;
-use App\Infrastructure\Helpers\TelegramHelper;
+use App\Application\Helpers\TelegramHelper;
 use App\Application\Commands\CommandHandler;
 use App\Application\Telegram\MessageHandler;
 

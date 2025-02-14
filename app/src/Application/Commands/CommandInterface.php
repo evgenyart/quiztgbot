@@ -6,5 +6,5 @@ namespace App\Application\Commands;
 
 interface CommandInterface
 {
-    public function execute(string $message): ?string;
+    public function execute(string $message = '', int $userId = 0): string;
 }

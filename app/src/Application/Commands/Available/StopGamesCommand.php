@@ -13,10 +13,8 @@ class StopGamesCommand implements CommandInterface
     {
     }
 
-    public function execute(string $message = "", int $userId = 0): ?string
+    public function execute(string $message = "", int $userId = 0): string
     {
-        $response = $this->stopGameUseCase->__invoke((int)$userId);
-
-        return $response;
+        return $this->stopGameUseCase->__invoke((int)$userId);
     }
 }
