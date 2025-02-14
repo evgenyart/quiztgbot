@@ -14,8 +14,7 @@ class CreateQuestionUseCase
     public function __construct(
         private readonly QuestionsFactoryInterface $questionFactory,
         private readonly QuestionsRepositoryInterface $questionRepository
-    )
-    {
+    ) {
     }
 
     public function __invoke(CreateQuestionRequest $request): CreateQuestionResponse

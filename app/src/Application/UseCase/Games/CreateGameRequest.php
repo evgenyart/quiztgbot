@@ -7,10 +7,9 @@ namespace App\Application\UseCase\Games;
 class CreateGameRequest
 {
     public function __construct(
-        public readonly string $name, 
-        public readonly int $numTours, 
+        public readonly string $name,
+        public readonly int $numTours,
         public readonly int $numQuestions
-    )
-    {
+    ) {
     }
 }

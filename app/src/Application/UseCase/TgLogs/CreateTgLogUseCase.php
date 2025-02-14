@@ -14,8 +14,7 @@ class CreateTgLogUseCase
     public function __construct(
         private readonly TgLogsFactoryInterface $tgLogsFactory,
         private readonly TgLogsRepositoryInterface $tgLogsRepository
-    )
-    {
+    ) {
     }
 
     public function __invoke(CreateTgLogRequest $request): CreateTgLogResponse

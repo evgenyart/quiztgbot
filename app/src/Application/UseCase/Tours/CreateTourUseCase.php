@@ -14,8 +14,7 @@ class CreateTourUseCase
     public function __construct(
         private readonly ToursFactoryInterface $tourFactory,
         private readonly ToursRepositoryInterface $tourRepository
-    )
-    {
+    ) {
     }
 
     public function __invoke(CreateTourRequest $request): CreateTourResponse

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Application\UseCase\Tours;
 
 use App\Domain\Repository\ToursRepositoryInterface;
+use App\Application\UseCase\Tours\GetToursListResponse;
 
 class GetToursListUseCase
 {
@@ -13,7 +14,7 @@ class GetToursListUseCase
     ) {
     }
 
-    public function __invoke(): GeToursListResponse
+    public function __invoke(): GetToursListResponse
     {
         $result = [];
 

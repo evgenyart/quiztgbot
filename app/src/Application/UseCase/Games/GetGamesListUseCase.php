@@ -11,7 +11,8 @@ class GetGamesListUseCase
 {
     private $gamesService;
 
-    public function __construct(GamesService $gamesService) {
+    public function __construct(GamesService $gamesService)
+    {
         $this->gamesService = $gamesService;
     }
 

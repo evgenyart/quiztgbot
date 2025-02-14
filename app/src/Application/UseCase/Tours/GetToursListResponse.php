@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\UseCase\Tours;
 
-class GeToursListResponse
+class GetToursListResponse
 {
     public function __construct(
         public iterable $toursList

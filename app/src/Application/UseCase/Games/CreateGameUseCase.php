@@ -14,8 +14,7 @@ class CreateGameUseCase
     public function __construct(
         private readonly GamesFactoryInterface $gameFactory,
         private readonly GamesRepositoryInterface $gameRepository
-    )
-    {
+    ) {
     }
 
     public function __invoke(CreateGameRequest $request): CreateGameResponse
