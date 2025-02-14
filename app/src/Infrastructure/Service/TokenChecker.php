@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Infrastructure\Service;
 
+use App\Infrastructure\Service\LoadConfig;
 use Symfony\Component\HttpFoundation\Response;
 
 class TokenChecker
@@ -10,8 +13,7 @@ class TokenChecker
 
     public function __construct()
     {
-        // Получаем токен из .env файла
-        $this->envToken = $_ENV['API_TOKEN'];
+        $this->envToken = LoadConfig::loadConfigParam('API_TOKEN');
     }
 
     public function check($request)

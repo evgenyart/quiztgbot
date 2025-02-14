@@ -7,7 +7,7 @@ namespace App\Application\Commands;
 use Psr\Log\LoggerInterface;
 use App\Application\Commands\CommandFactory;
 
-class CommandHandler
+class CommandsHandler
 {
     public function __construct(private LoggerInterface $logger, private CommandFactory $commandFactory)
     {

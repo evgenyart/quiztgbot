@@ -27,4 +27,14 @@ class TelegramHelper
     {
         return explode(" ", $body);
     }
+
+    public static function getNameCommand($text): string
+    {
+        return strtok($text, ' ');
+    }
+
+    public static function checkIsCommand($text): bool
+    {
+        return (strpos($text, '/') === 0) ? true : false;
+    }
 }
