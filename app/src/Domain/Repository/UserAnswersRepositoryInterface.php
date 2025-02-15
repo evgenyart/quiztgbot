@@ -1,0 +1,25 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Domain\Repository;
+
+use App\Domain\Entity\UserAnswers;
+
+interface UserAnswersRepositoryInterface
+{
+    public function save(UserAnswers $userAnswers): void;
+    public function getCountBySession(int $sessionId): int;
+
+    public function getIdsQuestionsAnswersBySession(int $sessionId);
+
+    public function getCountRightAnswersBySession(int $sessionId): int;
+
+    #public function findByFilter(iterable $filter): iterable;
+
+    #public function findByIds(iterable $ids): iterable;
+
+    #public function getAll(): iterable;
+
+    #public function delete(int $id): void;
+}
