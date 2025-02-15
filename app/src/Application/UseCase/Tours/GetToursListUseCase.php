@@ -31,6 +31,6 @@ class GetToursListUseCase
             ];
         }
 
-        return new GeToursListResponse($result);
+        return new GetToursListResponse($result);
     }
 }
