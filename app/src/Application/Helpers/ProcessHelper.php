@@ -21,7 +21,7 @@ class ProcessHelper
     ) {
     }
 
-    public function showNextStep($userId)
+    public function showNextStep($userId): ?string
     {
         #получим внутренний id пользователя
         $internalUserId = $this->userHelper->getInternalUserId($userId);
@@ -46,11 +46,9 @@ class ProcessHelper
             #вывести результат, закрыть сессию
             return $this->finishSession($sessionInfo, $cntQuestions);
         }
-
-        return $response;
     }
 
-    private function showNextQuestion($sessionInfo, $idsQuestionsAnswers)
+    private function showNextQuestion($sessionInfo, $idsQuestionsAnswers): string
     {
         return $this->questionHelper->showQuestion(
             $sessionInfo['gameId'],
@@ -59,14 +57,14 @@ class ProcessHelper
         );
     }
 
-    private function finishSession($sessionInfo, $cntQuestions)
+    private function finishSession($sessionInfo, $cntQuestions): string
     {
         $response = $this->calculateResult($sessionInfo['id'], $cntQuestions);
         $this->sessionHelper->closeSession($sessionInfo['id']);
         return $response;
     }
 
-    private function calculateResult($sessionId, $cntQuestions)
+    private function calculateResult($sessionId, $cntQuestions): string
     {
         $cntRight = $this->userAnswersService->getCountRightAnswersBySession($sessionId);
 
