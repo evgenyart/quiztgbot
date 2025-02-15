@@ -9,9 +9,6 @@ use App\Domain\Entity\UserAnswers;
 interface UserAnswersRepositoryInterface
 {
     public function save(UserAnswers $userAnswers): void;
-
-    public function findByGameId(int $gameId): iterable;
-
     public function getCountBySession(int $sessionId): int;
 
     public function getIdsQuestionsAnswersBySession(int $sessionId);

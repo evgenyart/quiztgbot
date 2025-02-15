@@ -18,9 +18,6 @@ class UserAnswers
     private ?string $userId = null;
 
     #[ORM\Column]
-    private ?int $gameId = null;
-
-    #[ORM\Column]
     private ?int $sessionId = null;
 
     #[ORM\Column]
@@ -40,14 +37,12 @@ class UserAnswers
 
     public function __construct(
         $userId,
-        $gameId,
         $sessionId,
         $questionId,
         $answer,
         $result
     ) {
         $this->userId = $userId;
-        $this->gameId = $gameId;
         $this->sessionId = $sessionId;
         $this->questionId = $questionId;
         $this->answer = $answer;
@@ -70,19 +65,7 @@ class UserAnswers
 
         return $this;
     }
-
-    public function getGameId(): ?int
-    {
-        return $this->gameId;
-    }
-
-    public function setGameId(int $gameId): static
-    {
-        $this->gameId = $gameId;
-
-        return $this;
-    }
-
+    
     public function getSessionId(): ?int
     {
         return $this->sessionId;

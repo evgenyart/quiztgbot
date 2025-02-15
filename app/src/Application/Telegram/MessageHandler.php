@@ -42,7 +42,6 @@ class MessageHandler
                 #запишем ответ пользователя в таблицу и результат
                 $userAnswer = new UserAnswers(
                     $internalUserId,
-                    0,  #hack, поле избыточно
                     $sessionInfo['id'],
                     $sessionInfo['lastQuestionId'],
                     $message,

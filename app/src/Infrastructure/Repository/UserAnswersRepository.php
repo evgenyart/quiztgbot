@@ -30,10 +30,6 @@ class UserAnswersRepository extends ServiceEntityRepository implements UserAnswe
         #$id = $userAnswers->getId();
     }
 
-    public function findByGameId(int $gameId): iterable
-    {
-        return $this->findBy(['game_id' => $gameId]);
-    }
 
     public function getAll(): iterable
     {
