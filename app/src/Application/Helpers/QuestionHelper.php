@@ -12,8 +12,7 @@ class QuestionHelper
     public function __construct(
         private QuestionsService $questionsService,
         private SessionsService $sessionsService
-    )
-    {
+    ) {
     }
 
     public function requestQuestionById($lastQuestionId)
@@ -21,13 +20,13 @@ class QuestionHelper
         return $this->questionsService->getQuestionById($lastQuestionId);
     }
 
-    public function ShowQuestion($gameId, $userSessionId, $showedIds): string
+    public function showQuestion($gameId, $userSessionId, $showedIds): string
     {
         $question = $this->questionsService->showNextQuestion($gameId, $userSessionId, $showedIds);
 
-        if($question) {
+        if ($question) {
             $this->sessionsService->setLastQuestionId($userSessionId, $question->getId());
-            return "\xE2\x9D\x93 Вопрос ".$question->getQuestionNum() . ": ". $question->getText();
+            return "\xE2\x9D\x93 Вопрос " . $question->getQuestionNum() . ": " . $question->getText();
         } else {
             return "";
         }

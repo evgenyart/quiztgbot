@@ -34,7 +34,7 @@ class SessionHelper
         $dateNow = new \DateTime('now');
 
         #если сессий не было ещё - то создадим
-        if(!$session) {
+        if (!$session) {
             $session = new Sessions($internalUserId, $gameId, $dateNow);
             $this->sessionsService->addSession($session);
         }

@@ -16,7 +16,7 @@ class TelegramHelper
             $key = "edited_message";
         }
 
-        if(isset($body['edited_message']) || isset($body['message'])) {
+        if (isset($body['edited_message']) || isset($body['message'])) {
             $chatId = $body[$key]['chat']['id'];
             $text = $body[$key]['text'];
             $userId = $body[$key]['from']['id'];
@@ -45,8 +45,8 @@ class TelegramHelper
     public static function formatGamesList(GetGamesListResponse $gamesListResponse): string
     {
         $message = "Список доступных квизов в базе: \n\n";
-        foreach($gamesListResponse->gamesList as $oneGame) {
-            $message .= $oneGame['id'] ." - ".$oneGame['name']. "\n";
+        foreach ($gamesListResponse->gamesList as $oneGame) {
+            $message .= $oneGame['id'] . " - " . $oneGame['name'] . "\n";
         }
 
         $message .= "\nЧтобы запустить игру, наберите команду /start <ID>";

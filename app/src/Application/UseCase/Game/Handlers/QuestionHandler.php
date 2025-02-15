@@ -28,7 +28,7 @@ class QuestionHandler extends AbstractGameHandler
 
         #если это новая игра, то выдадим вопрос
         if ($cntAnswersSession == 0) {
-            return $this->questionHelper->ShowQuestion($gameId, $userSessionId, []);
+            return $this->questionHelper->showQuestion($gameId, $userSessionId, []);
         } else {
             //TODO: тут можно описать случай, когда пользователь продолжает игру, если повторно её запустил
         }
